@@ -1,0 +1,40 @@
+#!/bin/bash
+
+MAX_RANDOM=32767
+
+function random_int {
+
+  case $# in
+    0)
+      echo "Usage: random_int [lower_bound] upper_bound"  
+      return
+      ;;
+    1)
+      # echo "Upper bound: $1"
+      LOWER_BOUND="0"
+      UPPER_BOUND="$1"
+      ;;
+    2)
+      # echo "Bounds: $1 $2"
+      LOWER_BOUND="$1"
+      UPPER_BOUND="$2"
+      ;;
+    *)
+      # echo "Too many arguments"
+      exit
+      ;;
+  esac
+  
+  RANGE=$((UPPER_BOUND-LOWER_BOUND))
+  # echo "Range: $RANGE"
+  PERCENT=
+  RESULT=`echo "scale=10; ($RANDOM / $MAX_RANDOM * $RANGE) + $LOWER_BOUND" | bc`
+  # echo "Result: $RESULT"
+  ROUNDED=`printf "%.0f" "$RESULT"`
+  
+  echo "$ROUNDED"
+}
+
+function random_float {
+  echo "Usage: random_int [lower_bound] upper_bound"
+}
