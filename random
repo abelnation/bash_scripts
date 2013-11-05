@@ -7,6 +7,7 @@ function random_int {
   case $# in
     0)
       echo "Usage: random_int [lower_bound] upper_bound"  
+      echo "Returns a random integer in the range [lower_bound, upperbound]"
       return
       ;;
     1)
@@ -21,20 +22,43 @@ function random_int {
       ;;
     *)
       # echo "Too many arguments"
-      exit
+      LOWER_BOUND="$1"
+      UPPER_BOUND="$2"
       ;;
   esac
   
-  RANGE=$((UPPER_BOUND-LOWER_BOUND))
-  # echo "Range: $RANGE"
-  PERCENT=
-  RESULT=`echo "scale=10; ($RANDOM / $MAX_RANDOM * $RANGE) + $LOWER_BOUND" | bc`
-  # echo "Result: $RESULT"
+  RESULT=`random_float $LOWER_BOUND $UPPER_BOUND`
   ROUNDED=`printf "%.0f" "$RESULT"`
   
   echo "$ROUNDED"
 }
 
 function random_float {
-  echo "Usage: random_int [lower_bound] upper_bound"
+  case $# in
+    0)
+      echo "Usage: random_float [lower_bound] upper_bound"  
+      echo "Returns a random float in the range [lower_bound, upperbound]"
+      return
+      ;;
+    1)
+      # echo "Upper bound: $1"
+      LOWER_BOUND="0"
+      UPPER_BOUND="$1"
+      ;;
+    2)
+      # echo "Bounds: $1 $2"
+      LOWER_BOUND="$1"
+      UPPER_BOUND="$2"
+      ;;
+    *)
+      # echo "Too many arguments"
+      LOWER_BOUND="$1"
+      UPPER_BOUND="$2"
+      ;;
+  esac
+  
+  RANGE=$((UPPER_BOUND-LOWER_BOUND))
+  # echo "Range: $RANGE"
+  RESULT=`echo "scale=10; ($RANDOM / $MAX_RANDOM * $RANGE) + $LOWER_BOUND" | bc`
+  echo "$RESULT"
 }
