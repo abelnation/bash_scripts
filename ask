@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ask() {
+  if [ $# -lt 2 ]; then
+    echo "ask usage: ask <prompt> <y|n>"
+  fi
+
+  PROMPT=$1
+  DEFAULT=`echo $2 | tr [:upper:] [:lower:]`
+  if [ $DEFAULT == "y" ]; then
+    YES="Y"
+    NO="n"
+  elif [ $DEFAULT == "n" ]; then
+    YES="y"
+    NO="N"
+  else
+    echo "Default should be 'y' or 'n'"
+    exit;
+  fi
+
+  read -p "$PROMPT [$YES|$NO]" ANSWER
+  ANSWER=${ANSWER:-$DEFAULT}
+  echo "$ANSWER"
+}
